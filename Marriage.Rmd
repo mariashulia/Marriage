@@ -1,0 +1,55 @@
+---
+title: "Marriage"
+author: Mariia Sarlayan
+date: 2024
+output: 
+  rmarkdown::html_document:
+---
+
+``` {r, echo = TRUE}
+knitr::opts_chunk$set(warning = FALSE, message = FALSE) 
+```
+
+```{r setup, echo = TRUE}
+knitr::opts_chunk$set(warning = FALSE, message = FALSE) 
+library(ggplot2)
+library(dplyr)
+library(tidyverse)
+library(knitr)
+library(bslib)
+```
+
+```{r Section 1, echo = TRUE}
+# This dataset represents the data collected from 1960 to 2012 among people of various ages in the United States. The purpose of this study is to understand whether age, economic factors, gender, and education affect people's decision to get married, and if yes, how trends changed compared to the previous generations. 
+
+# The data were collected from multiple sources. Pew Research Center Report is a primary source of data in this dataset which conducts surveys and analyzes demographic data. Another source is a Current Population Survey (CPS) conducted by the Bureau of Labor Statistics and the Census Bureau - employment data were collected from this source. Other sources include Pew Surveys, historical comparisons, behavioral predictions, and so on.
+
+# The data is stored in a CSV file in a table format. The dataset has 20 columns with each row representing data for a specific year. We can say that this dataset is a file delimited by tabs. There are multiple programs that could open this dataset, any software that works with csv format can be used, such as Microsoft Excel, Google Sheets, Numbers, R Studio, etc. 
+```
+
+```{r Section 2, echo = TRUE}
+data_read <- read.csv("~/Downloads/both_sexes.csv")
+
+# I used the data_read function as I have the dataset saved to my computer in the .csv format.
+```
+
+```{r Section 3, echo = TRUE}
+rename(data_read, "Bach_Only_2534"="BAo_2534",
+         "Grad Degr"="GD_2534")
+filter(data_read, year>2000)
+```
+
+This dataframe has `r nrow(data_read)` rows and `r ncol(data_read)` columns. The names of the columns and a brief description of each are in the table below:
+
+```{r Section 4, echo = TRUE}
+library(knitr)
+transposed <- t(data_read)
+knitr::kable(transposed[1:8,0:0], col.names = c("Column Name"))
+```
+
+```{r Section 5, echo = TRUE}
+filtered_data_read <- select(data_read, c('year', 'all_2534', 'BAp_2534'))
+filtered_summary <- summary(filtered_data_read)
+  sum(is.na(filtered_data_read))
+filtered_summary
+```
